@@ -34,7 +34,7 @@ class EventSerializer(serializers.HyperlinkedModelSerializer):
     )
 
     class Meta:
-        model = TeamSerializer
+        model = Event
         fields = ('id', 'user', 'user_id', 'event_url',
                   'title', 'description', 'date',)
 
