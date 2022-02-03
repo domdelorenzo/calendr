@@ -1,9 +1,13 @@
 <template>
-<div></div>
+<div>
+  <p>This is Calendar</p>
+</div>
 </template>
 
 <script>
-
+export default {
+  name: 'Calendar',
+}
 </script>
 
 <style>
