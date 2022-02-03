@@ -1,0 +1,3 @@
+CREATE DATABASE calendr;
+CREATE USER calendruser WITH PASSWORD 'calendr';
+GRANT ALL PRIVILEGES ON DATABASE calendr TO calendruser;
