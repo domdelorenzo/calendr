@@ -15,23 +15,18 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = User
-        fields = ()
+        fields = ('id', 'events', 'event_url', 'username')
 
 
 class EventSerializer(serializers.HyperlinkedModelSerializer):
     user = serializers.HyperlinkedRelatedField(
-        view_name='user_detail'
+        view_name='user_detail',
         read_only=True
     )
 
     user_id = serializers.PrimaryKeyRelatedField(
-        queryset=User.objects.all()
+        queryset=User.objects.all(),
         source='user'
-    )
-
-    calendar = serializers.HyperlinkedRelatedField(
-        view_name='calendar_detail'
-        read_only=True
     )
 
     event_url = serializers.ModelSerializer.serializer_url_field(
@@ -40,7 +35,8 @@ class EventSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = TeamSerializer
-        fields = ()
+        fields = ('id', 'user', 'user_id', 'event_url',
+                  'title', 'description', 'date',)
 
 # Do we need a calendar serializer?
 # class CalendarSerializer(serializers.HyperlinkedModelSerializer):
