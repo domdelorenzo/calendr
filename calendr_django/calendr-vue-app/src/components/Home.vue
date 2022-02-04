@@ -27,41 +27,37 @@
                     />
                     <button type="submit">Log in</button>
                 </form>
+                
             </div>
         </div>
+        
     </div>
 </template>
 
 <script>
-import {CreateUser} from '../services/endpoints'
 export default {
     name: 'Home',
-    data: () => ({
-        signin: '',
-        login: '',
-        user: JSON.parse(localStorage.getItem('user')) || null,
-    }),
+    props: {
+        signin :{
+            type: String,
+            required: true
+        },
+        login :{
+            type: String,
+            required: true
+        },
+    },
     methods: {
         handleChange(e) {
-            this[e.target.name] = e.target.value
+            this.$emit('fieldChange', e.target.name, e.target.value)
+            // this[e.target.name] = e.target.value
         },
-        async handleSignup() {
-            console.log(`${this.signin} signed up`)
-            const user = await CreateUser(this.signin)
-            localStorage.setItem('user', JSON.stringify(user))
-            this.user = user
+        handleSignup() {
+            this.$emit('handleSignup')
         },
         handleLogin() {
-            console.log(`${this.login} logged in`)
-        },
-        // async submitUsername(){
-        //     const user = await CreateUser(this.signin)
-        //     // localStorage.setItem('user', JSON.stringify(user))
-        
-        //     this.user = user
-        //     // this.$socket.emit('userConnected', { username: user.username })
-
-        // }
+            this.$emit('handleLogin')
+        }
     }
 }
 </script>
