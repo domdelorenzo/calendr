@@ -39,7 +39,7 @@ export default {
     data: () => ({
         signin: '',
         login: '',
-        // user: JSON.parse(localStorage.getItem('user')) || null,
+        user: JSON.parse(localStorage.getItem('user')) || null,
     }),
     methods: {
         handleChange(e) {
@@ -48,6 +48,7 @@ export default {
         async handleSignup() {
             console.log(`${this.signin} signed up`)
             const user = await CreateUser(this.signin)
+            localStorage.setItem('user', JSON.stringify(user))
             this.user = user
         },
         handleLogin() {
