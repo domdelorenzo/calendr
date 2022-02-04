@@ -2,7 +2,6 @@
 	<div class="home-container">
 		<div class="signup-div-container">
 			<h1 class="calendr-h1">Calendr .</h1>
-			<!-- <h2 class="calendr-h2">Schedule and Plan your way</h2> -->
 			<div class="signup-container">
 				<h2 class="signup-h2">Create an account and start planning!</h2>
 				<form v-on:submit.prevent="handleSignup" class="signup-form-container">
@@ -29,22 +28,34 @@
 				</form>
 			</div>
 		</div>
+		<!-- 
+		<div class="login-div-container">
+			<h1 class="calendr-h1-login">Calendr .</h1>
+			<div class="login-container">
+				<form v-on:submit.prevent="handleLogin" class="signup-form-container">
+					<h2 class="calendr-h2-login">Please login</h2>
+					<div class="input-container">
+						<input
+							type="text"
+							placeholder="Username"
+							:value="login"
+							name="login"
+							v-on:input="handleChange"
+							class="signup-input-form"
+						/>
+					</div>
 
-		<!-- <div class="user-forms-right-div"></div> -->
-		<!-- <div class="login-container">
-				<h2>Log in</h2>
-				<form v-on:submit.prevent="handleLogin" class="login-form-container">
-					<input
-						type="text"
-						placeholder="Username"
-						:value="login"
-						name="login"
-						v-on:input="handleChange"
-						class="login-input-form"
-					/>
-					<button type="submit" class="login-btn">Log in</button>
-				</form> -->
-		<!-- </div> -->
+					<div class="input-container">
+						<input
+							type="text"
+							placeholder="Password"
+							class="signup-input-form"
+						/><br /><br />
+						<button type="submit" class="signup-btn">Log in</button>
+					</div>
+				</form>
+			</div>
+		</div> -->
 	</div>
 </template>
 
@@ -79,31 +90,21 @@ export default {
 <style scoped>
 .home-container {
 	display: flex;
+	justify-content: center;
 	align-items: center;
 	height: 100vh;
-}
-
-.signup-div-container {
 	margin: 0 auto;
-}
-
-.user-forms-right-div {
-	/* margin: 0 auto;
-	background-color: gray; */
-
-	/* background-image: url('https://images.unsplash.com/photo-1543168256-4ae2229821f1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=812&q=80'); */
-	/* background-repeat: repeat;
+	background-image: url('https://images.unsplash.com/photo-1543168256-4ae2229821f1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=812&q=80');
 	background-size: cover;
-	background-position: 25% 75%;
-	height: 100vh; */
+	background-position: 25% 25%;
 }
 
 .calendr-h1 {
 	background-color: rgb(235, 225, 220);
+	box-shadow: 0.2em 0.2em rgb(247, 235, 235);
 	font-family: Roboto;
 	font-size: 4em;
-	padding: 0 0.6em 0.1em 0.6em;
-	/* margin-left: 4em; */
+	padding: 0 0.6em 0.1em 0.4em;
 	width: 45vw;
 	z-index: 2;
 	position: relative;
@@ -123,11 +124,6 @@ export default {
 	margin: -4em 0 0 2em;
 	padding-top: 2em;
 	background-color: white;
-}
-
-.signup-form-container {
-	/* display: flex; */
-	/* border: solid 1px red; */
 }
 
 .input-container {
@@ -150,13 +146,11 @@ export default {
 
 .signup-input-form::placeholder {
 	font-family: 'Roboto', sans-serif;
-	/* font-weight: bold; */
 }
 
 .signup-h2 {
 	text-align: center;
 	font-family: 'Lato', sans-serif;
-	/* color: white; */
 }
 
 .input-container-btn {
@@ -182,21 +176,30 @@ export default {
 	width: 18em;
 	transition: 0.8s;
 }
+.login-div-container {
+	margin: 0 auto;
+}
 
 .login-container {
-	width: 50%;
+	height: 20vh;
+	width: 50vw;
+	margin: -2em 2em 0 3em;
+	background-color: white;
 }
 
-.login-form-container {
-	margin: 0 auto;
-	border: solid 2px red;
+.calendr-h1-login {
+	background-color: rgb(235, 225, 220);
+	box-shadow: 0.2em 0.2em rgb(247, 235, 235);
+	font-family: Roboto;
+	font-size: 4em;
+	padding: 0 0.6em 0.1em 0.4em;
+	width: 45vw;
 }
 
-.login-input-form {
-	background-color: red;
-}
-
-.login-btn {
-	border: 0;
+.calendr-h2-login {
+	font-family: Roboto;
+	font-size: 2em;
+	text-align: center;
+	padding: 1em 0 0 0;
 }
 </style>
