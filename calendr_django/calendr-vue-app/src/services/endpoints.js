@@ -19,3 +19,8 @@ export const PostEvent = async (event) => {
   const res = await Client.post(`/events/`, event)
   return res.data
 }
+
+export const DeleteEvent = async (id) => {
+  const res = await Client.delete(`/events/${id}`)
+  return res.data;
+}
