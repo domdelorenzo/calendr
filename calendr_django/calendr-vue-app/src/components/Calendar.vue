@@ -1,36 +1,32 @@
 <template>
+
 	<div>
 		<h1>Calendr</h1>
 		<a @click="logout" href="">Logout</a>
-		<div>
-			<VCalendar class="events-calendar" is-expanded :attributes="attributes">
-				<template v-slot:day-content="{ day, attributes }">
-					<span>{{ day.day }}</span>
-					<div>
-						<p :key="attr.key" v-for="attr in attributes" class="event">
-							{{ attr.customData.title
-							}}<button
-								:value="attributes"
-								@click="testClick(attributes)"
-							>
-								x
-							</button>
-						</p>
-					</div>
-				</template>
-			</VCalendar>
-		</div>
-		<div class="form-container">
-			<form>
-				<input type="text" placeholder="event name" />
-				<input type="text" placeholder="description" />
-				<button type="submit">Create Event</button>
-			</form>
-			<div class="calendar-div" v-on:click="handleClick">
-				<DatePicker is-expanded v-model="date" />
-			</div>
-		</div>
-	</div>
+    <div>
+      <VCalendar class="events-calendar" is-expanded :attributes="attributes">
+        <template v-slot:day-content="{ day, attributes }">
+          <span>{{ day.day }}</span>
+          <div>
+            <p :key="attr.key" v-for="attr in attributes" class="event" @click="testClick(attr)">
+              {{ attr.customData.title }}
+            </p>
+          </div>
+        </template>
+      </VCalendar>
+    </div>
+    <div class="form-container">
+      <form @submit="submitEvent">
+        <input type="text" placeholder="title" @input="handleChange" />
+        <input type="text" placeholder="description" @input="handleChange" />
+        <button type="submit">Create Event</button>
+      </form>
+      <div class="calendar-div" v-on:click="handleClick">
+        <DatePicker is-expanded v-model="date" />
+      </div>
+    </div>
+  </div>
+
 </template>
 
 <script>
@@ -51,6 +47,9 @@ export default {
 			date: new Date(),
 			attributes: [],
 			user: JSON.parse(localStorage.getItem('user')) || null,
+      newEvent: {
+        user_id: this.user.id,
+      },
 		};
 	},
 	mounted() {
@@ -58,9 +57,9 @@ export default {
 		this.cosoleMyLog();
 	},
 	methods: {
-		handleClick() {
-			console.log(this.date.toISOString().slice(0, 10));
-		},
+    handleClick() {
+      this.newEvent = { ...this.newEvent, date: this.date.toISOString().slice(0, 10) };
+    },
 		cosoleMyLog(){
 			console.log('hello world')
 			console.log(this.user)
@@ -77,16 +76,16 @@ export default {
 				let year = parseInt(res.data.date.slice(0, 4));
 				let month = parseInt(res.data.date.slice(5, 7));
 				let day = parseInt(res.data.date.slice(8, 10));
-				this.attributes.push({
-					key: [i] + 1,
-					customData: { title: res.data.title },
-					dates: new Date(year, month - 1, day),
-				});
-			}
+				this.attributes.push({ key: [i] + 1, customData: { title: res.data.title }, dates: new Date(year, month - 1, day), userData: res });
+   			}
 		},
-		testClick(e) {
-			console.log(e);
-		},
+    handleChange(e) {
+      this.newEvent = { ...this.newEvent, [e.target.placeholder]: e.target.value, date: this.date };
+    },
+    submitEvent(e) {
+      e.preventDefault();
+      console.log(this.newEvent);
+    },
 		logout(){
 			localStorage.clear()
       this.user = null
@@ -94,10 +93,11 @@ export default {
 			this.$router.push(`/home`)
 		}
 	},
+
 };
 </script>
 
-<style>
+<style scoped>
 ::-webkit-scrollbar {
 	width: 0px;
 }
