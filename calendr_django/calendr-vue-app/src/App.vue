@@ -2,10 +2,8 @@
   <div id="app">
     <router-view header=""></router-view>
     <!--example: <router-link to='/' name="home">Home</router-link> -->
-    <header>
-      <button @click="clearUser">Logout</button>
-    </header>
-    <Home 
+
+    <Home
       v-if="!user"
       @handleSignup="handleSignup"
       @handleLogin="handleLogin"
@@ -14,53 +12,56 @@
       :user="user"
       @fieldChange="fieldChange"
     />
-    <Calendar v-else :user="user" />
+    <div v-else>
+      <header>
+        <button @click="clearUser">Logout</button>
+      </header>
+      <Calendar :user="user" />
+    </div>
   </div>
 </template>
 
 <script>
-import Calendar from './components/Calendar.vue'
-import Home from './components/Home.vue'
-import {CreateUser, FindUsername} from './services/endpoints'
+import Calendar from "./components/Calendar.vue";
+import Home from "./components/Home.vue";
+import { CreateUser, FindUsername } from "./services/endpoints";
 export default {
-  name: 'App',
-  data:()=>({
-    signin: '',
-    login: '',
-    user: JSON.parse(localStorage.getItem('user')) || null,
+  name: "App",
+  data: () => ({
+    signin: "",
+    login: "",
+    user: JSON.parse(localStorage.getItem("user")) || null,
   }),
   components: {
     Home,
-    Calendar
+    Calendar,
   },
   methods: {
-    fieldChange(name, value){
-      this[name] = value
+    fieldChange(name, value) {
+      this[name] = value;
     },
 
     async handleSignup() {
-
-      console.log(this.signin)
-        console.log(`${this.signin} signed up`)
-        const user = await CreateUser(this.signin)
-        localStorage.setItem('user', JSON.stringify(user))
-
+      console.log(this.signin);
+      console.log(`${this.signin} signed up`);
+      const user = await CreateUser(this.signin);
+      localStorage.setItem("user", JSON.stringify(user));
     },
     async handleLogin() {
-      console.log(this.login)
-        const user = await FindUsername(this.login)
-        localStorage.setItem('user', JSON.stringify(user))
-        this.user = user
-        console.log(user)
-        console.log(`${this.login} logged in`)
+      console.log(this.login);
+      const user = await FindUsername(this.login);
+      localStorage.setItem("user", JSON.stringify(user));
+      this.user = user;
+      console.log(user);
+      console.log(`${this.login} logged in`);
     },
     clearUser() {
-        localStorage.clear()
-        this.user = null
-        // this.username = ''
-    }
-  }
-}
+      localStorage.clear();
+      this.user = null;
+      // this.username = ''
+    },
+  },
+};
 </script>
 
 <style>
