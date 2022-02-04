@@ -8,7 +8,7 @@
           <span>{{ day.day }}</span>
           <div>
             <p :key="attr.key" v-for="attr in attributes" class="event">
-              {{ attr.customData.title }}
+              {{ attr.customData.title }}<button :value="attributes" @input="handleChange" @click="testClick(attributes)">x</button>
             </p>
           </div>
         </template>
@@ -39,9 +39,12 @@ export default {
     DatePicker,
     VCalendar,
   },
+  props: {
+    user: null,
+  },
   data() {
     return {
-      user: {},
+      userData: {},
       date: new Date(),
       attributes: [],
     };
@@ -54,17 +57,18 @@ export default {
       console.log(this.date.toISOString().slice(0, 10));
     },
     async getEvents() {
-      let res = await GetUser(this.$route.params.id);
-      this.user = res;
-      // console.log(this.user.events)
+      let res = await GetUser(this.user.id);
+      this.userData = res;
       for (let i = 0; i < this.user.events.length; i++) {
         let res = await axios.get(this.user.events[i]);
-        // this.userEvents.push(res.data);
-        let year = parseInt(res.data.date.slice(0, 4))
-        let month = parseInt(res.data.date.slice(5, 7))
-        let day = parseInt(res.data.date.slice(8, 10))
-        this.attributes.push({key: [i]+1, customData: { title: res.data.title}, dates: new Date(year, month-1, day)})
+        let year = parseInt(res.data.date.slice(0, 4));
+        let month = parseInt(res.data.date.slice(5, 7));
+        let day = parseInt(res.data.date.slice(8, 10));
+        this.attributes.push({ key: [i] + 1, customData: { title: res.data.title }, dates: new Date(year, month - 1, day) });
       }
+    },
+    testClick(e) {
+      console.log(e);
     },
   },
 };
