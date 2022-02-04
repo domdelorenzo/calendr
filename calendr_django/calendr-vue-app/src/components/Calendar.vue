@@ -290,19 +290,4 @@ export default {
 	font-size: 20px;
 }
 
-.calendar-div {
-	/* width: 40%; */
-}
-
-form {
-	/* display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 2em;
-	padding: 2em; */
-}
-input,
-button {
-	width: 60%;
-}
 </style>

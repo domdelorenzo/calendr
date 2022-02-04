@@ -1,6 +1,6 @@
 <template>
 	<div class="home-container">
-		<!-- <div class="signup-div-container">
+		<div class="signup-div-container">
 			<h1 class="calendr-h1">Calendr .</h1>
 			<div class="signup-container">
 				<h2 class="signup-h2">Create an account and start planning!</h2>
@@ -14,25 +14,11 @@
 							v-on:input="handleChange"
 							class="signup-input-form"
 						/>
-					</div>
-
-					<div class="input-container">
-						<input
-							type="text"
-							placeholder="Password"
-							class="signup-input-form"
-						/>
-						<br /><br />
 						<button type="submit" class="signup-btn">Sign up!</button>
 					</div>
-				</form>
-			</div>
-		</div> -->
 
-		<div class="login-div-container">
-			<h1 class="calendr-h1-login">Calendr .</h1>
-			<div class="login-container">
-				<form v-on:submit.prevent="handleLogin" class="signup-form-container">
+				</form>
+						<form v-on:submit.prevent="handleLogin" class="signup-form-container">
 					<h2 class="calendr-h2-login">Please login</h2>
 					<div class="input-container">
 						<input
@@ -43,19 +29,14 @@
 							v-on:input="handleChange"
 							class="signup-input-form"
 						/>
+							<button type="submit" class="signup-btn">Log in</button>
 					</div>
 
-					<div class="input-container">
-						<!-- <input
-							type="text"
-							placeholder="Password"
-							class="signup-input-form"
-						/><br /><br /> -->
-						<button type="submit" class="signup-btn">Log in</button>
-					</div>
 				</form>
 			</div>
 		</div>
+
+
 	</div>
 </template>
 
@@ -78,6 +59,7 @@ export default {
 		async handleSignup() {
 			const user = await CreateUser(this.signin);
 			localStorage.setItem('user', JSON.stringify(user.id));
+			this.signin = ''
 		},
 		async handleLogin() {
 			const user = await FindUsername(this.login);
@@ -123,7 +105,7 @@ export default {
 
 .signup-container {
 	width: 50vw;
-	height: 18vh;
+	height: 350px;
 	margin: -4em 0 0 2em;
 	padding-top: 2em;
 	background-color: white;
@@ -135,7 +117,8 @@ export default {
 	border-radius: 0.2em;
 	height: 2em;
 	width: 15em;
-	margin: 0 auto 0.5em;
+	/* margin: 0 auto 0.5em; */
+	margin: 0 auto 0;
 	text-align: center;
 }
 
@@ -166,7 +149,9 @@ export default {
 
 .signup-btn {
 	background-color: rgb(235, 225, 220);
+	/* width: 18em; */
 	border: 0;
+	margin:1em;
 	border-radius: 0.2em;
 	height: 2.5em;
 	font-family: 'Roboto', sans-serif;
@@ -178,13 +163,14 @@ export default {
 	background-color: rgb(162, 230, 162);
 	width: 18em;
 	transition: 0.8s;
+	/* margin:1em; */
 }
 .login-div-container {
 	margin: 0 auto;
 }
 
 .login-container {
-	height: 20vh;
+	/* height: 20vh; */
 	width: 50vw;
 	margin: -2em 2em 0 3em;
 	background-color: white;
@@ -200,8 +186,9 @@ export default {
 }
 
 .calendr-h2-login {
+	margin-top: 2em;
 	font-family: Roboto;
-	font-size: 2em;
+	/* font-size: 2em; */
 	text-align: center;
 	padding: 1em 0 0 0;
 }
