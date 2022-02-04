@@ -1,6 +1,6 @@
 <template>
 	<div class="home-container">
-		<div class="signup-div-container">
+		<!-- <div class="signup-div-container">
 			<h1 class="calendr-h1">Calendr .</h1>
 			<div class="signup-container">
 				<h2 class="signup-h2">Create an account and start planning!</h2>
@@ -27,8 +27,8 @@
 					</div>
 				</form>
 			</div>
-		</div>
-		<!-- 
+		</div> -->
+		
 		<div class="login-div-container">
 			<h1 class="calendr-h1-login">Calendr .</h1>
 			<div class="login-container">
@@ -46,42 +46,49 @@
 					</div>
 
 					<div class="input-container">
-						<input
+						<!-- <input
 							type="text"
 							placeholder="Password"
 							class="signup-input-form"
-						/><br /><br />
+						/><br /><br /> -->
 						<button type="submit" class="signup-btn">Log in</button>
 					</div>
 				</form>
 			</div>
-		</div> -->
+		</div>
 	</div>
 </template>
 
 <script>
+import { CreateUser, FindUsername } from '../services/endpoints';
+
 export default {
 	name: 'Home',
-	props: {
-		signin: {
-			type: String,
-			required: true,
-		},
-		login: {
-			type: String,
-			required: true,
-		},
-	},
+	data: () => ({
+		signin: '',
+		login: '',
+		user: JSON.parse(localStorage.getItem('user')) || null,
+	}),
+	
 	methods: {
 		handleChange(e) {
-			this.$emit('fieldChange', e.target.name, e.target.value);
-			// this[e.target.name] = e.target.value
+			// this.$emit('fieldChange', e.target.name, e.target.value);
+			this[e.target.name] = e.target.value
 		},
-		handleSignup() {
-			this.$emit('handleSignup');
+		async handleSignup() {
+			console.log(this.signin);
+			console.log(`${this.signin} signed up`);
+			const user = await CreateUser(this.signin);
+			localStorage.setItem('user', JSON.stringify(user.id));
 		},
-		handleLogin() {
-			this.$emit('handleLogin');
+		async handleLogin() {
+			console.log(this.login);
+			const user = await FindUsername(this.login);
+			localStorage.setItem('user', JSON.stringify(user));
+			this.user = user;
+			console.log(user);
+			console.log(`${this.login} logged in`);
+			this.$router.push(`/calendar`)
 		},
 	},
 };

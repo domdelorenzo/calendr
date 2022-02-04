@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<h1>Calendr</h1>
-		<a href="">Logout</a>
+		<a @click="logout" href="">Logout</a>
 		<div>
 			<VCalendar class="events-calendar" is-expanded :attributes="attributes">
 				<template v-slot:day-content="{ day, attributes }">
@@ -11,7 +11,6 @@
 							{{ attr.customData.title
 							}}<button
 								:value="attributes"
-								@input="handleChange"
 								@click="testClick(attributes)"
 							>
 								x
@@ -46,28 +45,35 @@ export default {
 		DatePicker,
 		VCalendar,
 	},
-	props: {
-		user: null,
-	},
 	data() {
 		return {
 			userData: {},
 			date: new Date(),
 			attributes: [],
+			user: JSON.parse(localStorage.getItem('user')) || null,
 		};
 	},
 	mounted() {
 		this.getEvents();
+		this.cosoleMyLog();
 	},
 	methods: {
 		handleClick() {
 			console.log(this.date.toISOString().slice(0, 10));
 		},
+		cosoleMyLog(){
+			console.log('hello world')
+			console.log(this.user)
+		},
 		async getEvents() {
-			let res = await GetUser(this.user.id);
+			// let res = await GetUser(this.user.id);
+			
+			// let res = await GetUser(1);
+			let res = await GetUser(parseInt(this.user.id));
+		
 			this.userData = res;
-			for (let i = 0; i < this.user.events.length; i++) {
-				let res = await axios.get(this.user.events[i]);
+			for (let i = 0; i < this.userData.events.length; i++) {
+				let res = await axios.get(this.userData.events[i]);
 				let year = parseInt(res.data.date.slice(0, 4));
 				let month = parseInt(res.data.date.slice(5, 7));
 				let day = parseInt(res.data.date.slice(8, 10));
@@ -81,6 +87,12 @@ export default {
 		testClick(e) {
 			console.log(e);
 		},
+		logout(){
+			localStorage.clear()
+      this.user = null
+      this.username = ''
+			this.$router.push(`/home`)
+		}
 	},
 };
 </script>
@@ -113,11 +125,11 @@ export default {
 	background-color: rgb(199, 229, 247);
 }
 
-a {
+/* a {
 	position: absolute;
 	top: 10%;
 	right: 10%;
-}
+} */
 .form-container {
 	display: flex;
 	justify-content: space-around;
@@ -138,3 +150,5 @@ button {
 	width: 60%;
 }
 </style>
+
+
