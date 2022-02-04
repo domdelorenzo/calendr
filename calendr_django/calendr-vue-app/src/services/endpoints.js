@@ -14,3 +14,8 @@ export const GetUser = async (id) => {
   const res = await Client.get(`/users/${id}`);
   return res.data
 }
+
+export const PostEvent = async (event) => {
+  const res = await Client.post(`/events/`, event)
+  return res.data
+}

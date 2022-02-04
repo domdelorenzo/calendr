@@ -28,7 +28,7 @@
 				</form>
 			</div>
 		</div> -->
-		
+
 		<div class="login-div-container">
 			<h1 class="calendr-h1-login">Calendr .</h1>
 			<div class="login-container">
@@ -69,25 +69,21 @@ export default {
 		login: '',
 		user: JSON.parse(localStorage.getItem('user')) || null,
 	}),
-	
+
 	methods: {
 		handleChange(e) {
 			// this.$emit('fieldChange', e.target.name, e.target.value);
 			this[e.target.name] = e.target.value
 		},
 		async handleSignup() {
-			console.log(this.signin);
-			console.log(`${this.signin} signed up`);
 			const user = await CreateUser(this.signin);
 			localStorage.setItem('user', JSON.stringify(user.id));
 		},
 		async handleLogin() {
-			console.log(this.login);
 			const user = await FindUsername(this.login);
+			console.log(user)
 			localStorage.setItem('user', JSON.stringify(user));
 			this.user = user;
-			console.log(user);
-			console.log(`${this.login} logged in`);
 			this.$router.push(`/calendar`)
 		},
 	},
