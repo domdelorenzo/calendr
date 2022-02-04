@@ -7,8 +7,11 @@
         <template v-slot:day-content="{ day, attributes }">
           <span>{{ day.day }}</span>
           <div>
-            <p :key="attr.key" v-for="attr in attributes" class="event" @click="testClick(attr)">
-              {{ attr.customData.title }}
+            <p :key="attr.key" v-for="attr in attributes" class="event">
+              {{ attr.customData.title }} 
+              <button v-on:click.prevent='deleteEvent(attr.customData.id)'>
+                Delete
+              </button>
             </p>
           </div>
         </template>
@@ -16,8 +19,8 @@
     </div>
     <div class="form-container">
       <form @submit="submitEvent">
-        <input type="text" placeholder="title" @input="handleChange" />
-        <input type="text" placeholder="description" @input="handleChange" />
+        <input type="text" placeholder="title" :value="newEvent.title" @input="handleChange" />
+        <input type="text" placeholder="description" :value="newEvent.description" @input="handleChange" />
         <button type="submit">Create Event</button>
       </form>
       <div class="calendar-div" v-on:click="handleClick">
@@ -30,7 +33,7 @@
 <script>
 import DatePicker from "v-calendar/lib/components/date-picker.umd";
 import VCalendar from "v-calendar/lib/components/calendar.umd";
-import { GetUser, PostEvent } from "../services/endpoints";
+import { GetUser, PostEvent, DeleteEvent } from "../services/endpoints";
 import axios from "axios";
 
 export default {
@@ -45,36 +48,53 @@ export default {
       date: new Date(),
       attributes: [],
       user: JSON.parse(localStorage.getItem("user")) || null,
-      newEvent: {},
+      newEvent: {
+        user_id: null,
+        date: '',
+        description: '',
+        title: ''
+      },
     };
   },
   mounted() {
     this.getEvents();
   },
   methods: {
-    handleClick() {
-      this.newEvent = { ...this.newEvent, user_id: this.user.id, date: this.date.toISOString().slice(0, 10) };
-    },
     async getEvents() {
       let res = await GetUser(parseInt(this.user.id));
       this.userData = res;
-      console.log(this.userData);
       for (let i = 0; i < this.userData.events.length; i++) {
         let res = await axios.get(this.userData.events[i]);
         let year = parseInt(res.data.date.slice(0, 4));
         let month = parseInt(res.data.date.slice(5, 7));
         let day = parseInt(res.data.date.slice(8, 10));
-        this.attributes.push({ key: [i] + 1, customData: { title: res.data.title }, dates: new Date(year, month - 1, day), userData: res });
+        this.attributes.push({ 
+          key: [i] + 1, 
+          customData: { title: res.data.title, id: res.data.id }, 
+          dates: new Date(year, month - 1, day), 
+        });
       }
     },
+    handleClick() {
+      this.newEvent = { 
+        ...this.newEvent, 
+        date: this.date.toISOString().slice(0, 10) };
+    },
     handleChange(e) {
-      this.newEvent = { ...this.newEvent, [e.target.placeholder]: e.target.value, date: this.date };
+      this.newEvent = { 
+        ...this.newEvent, 
+        [e.target.placeholder]: e.target.value, 
+        date: this.date.toISOString().slice(0, 10) };
     },
     async submitEvent(e) {
       e.preventDefault();
-      console.log(this.newEvent);
-			await PostEvent(this.newEvent)
+			await PostEvent({...this.newEvent, user_id: this.user.id})
 			this.getEvents()
+      this.newEvent = {
+        date: this.newEvent.date,
+        description: '',
+        title: ''
+      }
     },
     logout() {
       localStorage.clear();
@@ -82,6 +102,12 @@ export default {
       this.username = "";
       this.$router.push(`/home`);
     },
+    async deleteEvent(id) {
+      console.log(`${id}`);
+      await DeleteEvent(id);
+      this.attributes = []
+      this.getEvents()
+    }
   },
 };
 </script>
