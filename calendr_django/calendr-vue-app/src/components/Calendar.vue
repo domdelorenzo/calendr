@@ -1,37 +1,30 @@
 <template>
-	<div>
-		<h1>Calendr</h1>
-		<a href="">Logout</a>
-		<div>
-			<VCalendar class="events-calendar" is-expanded :attributes="attributes">
-				<template v-slot:day-content="{ day, attributes }">
-					<span>{{ day.day }}</span>
-					<div>
-						<p :key="attr.key" v-for="attr in attributes" class="event">
-							{{ attr.customData.title
-							}}<button
-								:value="attributes"
-								@input="handleChange"
-								@click="testClick(attributes)"
-							>
-								x
-							</button>
-						</p>
-					</div>
-				</template>
-			</VCalendar>
-		</div>
-		<div class="form-container">
-			<form>
-				<input type="text" placeholder="event name" />
-				<input type="text" placeholder="description" />
-				<button type="submit">Create Event</button>
-			</form>
-			<div class="calendar-div" v-on:click="handleClick">
-				<DatePicker is-expanded v-model="date" />
-			</div>
-		</div>
-	</div>
+  <div>
+    <h1>Calendr</h1>
+    <a href="">Logout</a>
+    <div>
+      <VCalendar class="events-calendar" is-expanded :attributes="attributes">
+        <template v-slot:day-content="{ day, attributes }">
+          <span>{{ day.day }}</span>
+          <div>
+            <p :key="attr.key" v-for="attr in attributes" class="event" @click="testClick(attr)">
+              {{ attr.customData.title }}
+            </p>
+          </div>
+        </template>
+      </VCalendar>
+    </div>
+    <div class="form-container">
+      <form @submit="submitEvent">
+        <input type="text" placeholder="title" @input="handleChange" />
+        <input type="text" placeholder="description" @input="handleChange" />
+        <button type="submit">Create Event</button>
+      </form>
+      <div class="calendar-div" v-on:click="handleClick">
+        <DatePicker is-expanded v-model="date" />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -41,51 +34,57 @@ import { GetUser } from '../services/endpoints';
 import axios from 'axios';
 
 export default {
-	name: 'Calendar',
-	components: {
-		DatePicker,
-		VCalendar,
-	},
-	props: {
-		user: null,
-	},
-	data() {
-		return {
-			userData: {},
-			date: new Date(),
-			attributes: [],
-		};
-	},
-	mounted() {
-		this.getEvents();
-	},
-	methods: {
-		handleClick() {
-			console.log(this.date.toISOString().slice(0, 10));
-		},
-		async getEvents() {
-			let res = await GetUser(this.user.id);
-			this.userData = res;
-			for (let i = 0; i < this.user.events.length; i++) {
-				let res = await axios.get(this.user.events[i]);
-				let year = parseInt(res.data.date.slice(0, 4));
-				let month = parseInt(res.data.date.slice(5, 7));
-				let day = parseInt(res.data.date.slice(8, 10));
-				this.attributes.push({
-					key: [i] + 1,
-					customData: { title: res.data.title },
-					dates: new Date(year, month - 1, day),
-				});
-			}
-		},
-		testClick(e) {
-			console.log(e);
-		},
-	},
+  name: "Calendar",
+  components: {
+    DatePicker,
+    VCalendar,
+  },
+  props: {
+    user: null,
+  },
+  data() {
+    return {
+      userdata: {},
+      date: "",
+      attributes: [],
+      newEvent: {
+        user_id: this.user.id,
+      },
+    };
+  },
+  mounted() {
+    this.getEvents();
+  },
+  methods: {
+    handleClick() {
+      this.newEvent = { ...this.newEvent, date: this.date.toISOString().slice(0, 10) };
+    },
+    async getEvents() {
+      let res = await GetUser(this.user.id);
+      this.userData = res;
+      for (let i = 0; i < this.user.events.length; i++) {
+        let res = await axios.get(this.user.events[i]);
+        let year = parseInt(res.data.date.slice(0, 4));
+        let month = parseInt(res.data.date.slice(5, 7));
+        let day = parseInt(res.data.date.slice(8, 10));
+        this.attributes.push({ key: [i] + 1, customData: { title: res.data.title }, dates: new Date(year, month - 1, day), userData: res });
+      }
+    },
+    testClick(e) {
+      console.log(e);
+    },
+    handleChange(e) {
+      this.newEvent = { ...this.newEvent, [e.target.placeholder]: e.target.value, date: this.date };
+    },
+    submitEvent(e) {
+      e.preventDefault();
+      console.log(this.newEvent);
+    },
+  },
 };
 </script>
 
-<style>
+<style scoped>
 ::-webkit-scrollbar {
 	width: 0px;
 }
