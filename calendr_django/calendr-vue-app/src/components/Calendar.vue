@@ -1,14 +1,20 @@
 <template>
 	<div class="Calendar">
-		<h1>Calendr</h1>
-		<a @click="logout" href="">Logout</a>
+		<h1 class="calendar-h1">
+			Calendr <button @click="logout" class="logout-btn">Logout</button>
+		</h1>
 
 		<div class="form-container">
+			<div class="calendar-div" v-on:click="handleClick">
+				<DatePicker is-expanded v-model="date" class="date-picker" />
+			</div>
+
 			<form @submit="submitEvent" class="input-form-div">
+				<h2 class="calendar-event-h2">Add an event!</h2>
 				<div class="input-form-container">
 					<input
 						type="text"
-						placeholder="title"
+						placeholder="Event Title"
 						:value="newEvent.title"
 						@input="handleChange"
 						class="title-input"
@@ -18,7 +24,7 @@
 				<div class="input-form-container">
 					<input
 						type="text"
-						placeholder="description"
+						placeholder="Event Description"
 						:value="newEvent.description"
 						@input="handleChange"
 						class="title-input"
@@ -29,10 +35,6 @@
 					<button type="submit" class="create-event-btn">Create Event</button>
 				</div>
 			</form>
-
-			<div class="calendar-div" v-on:click="handleClick">
-				<DatePicker is-expanded v-model="date" class="date-picker" />
-			</div>
 		</div>
 
 		<div class="events-calendar-container">
@@ -150,17 +152,13 @@ export default {
 
 .Calendar {
 	width: 100vw;
+	text-align: center;
 }
 
 .events-calendar-container {
-	/* border: solid 1px red; */
+	display: flex;
+	width: 75vw;
 	margin: 0 auto;
-	/* width: 75vw; */
-}
-
-.events-calendar {
-	border: 0;
-	width: 50%;
 }
 
 .vc-day {
@@ -170,6 +168,7 @@ export default {
 	/* border-right: solid 0.2px lightgray; */
 	/* background-color: rgb(243, 240, 240); */
 	/* border-radius: 1em; */
+	/* height: 10em; */
 	margin: 0.2em;
 	border-radius: 0.3em;
 	overflow-y: auto;
@@ -178,24 +177,20 @@ export default {
 	text-align: center;
 }
 
+.date-picker {
+	border: 0;
+}
+
 .calendar-days {
 	text-align: center;
 }
-.calendar-dates {
-	border: solid 1px blue;
-}
 
 .event {
-	border: 0.2px solid lightgray;
 	text-transform: capitalize;
 	background-color: rgb(199, 229, 247);
 	margin: 5px 5px;
 	padding: 5px;
 	border-radius: 0.5em;
-}
-
-.vc-header {
-	background-color: rgb(199, 229, 247);
 }
 
 .input-form-container {
@@ -210,33 +205,32 @@ export default {
 }
 
 .form-container {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
+	display: flex;
 	flex-wrap: wrap;
+	width: 50vw;
+	margin: 0 auto;
 	/* border: solid 1px red; */
-	margin-bottom: 2em;
 	align-items: center;
+}
+
+.vc-header {
+	background-color: rgb(248, 220, 183);
+}
+
+.vc-weeks {
+	/* Updates the WEEKS  */
 }
 
 .input-form-div {
 	margin: 0 auto;
-	/* border: solid 1px green; */
 }
 
 .calendar-div {
 	width: 50%;
+	margin-top: 2em;
 }
 
 .calendar-div div {
-	border: 0;
-}
-
-.calendar-div > span {
-	background-color: black;
-	border: 0;
-}
-
-.date-picker {
 	border: 0;
 }
 
@@ -290,4 +284,39 @@ export default {
 	font-size: 20px;
 }
 
+.calendar-h1 {
+	background-color: rgb(235, 225, 220);
+	box-shadow: 0.2em 0.2em rgb(247, 235, 235);
+	font-family: Roboto;
+	font-size: 4em;
+	/* padding: 0 0.6em 0.1em 0.4em; */
+	width: 90%;
+	margin: 0 auto;
+}
+
+.calendar-event-h2 {
+	font-family: Roboto;
+	text-align: center;
+}
+
+.logout-btn {
+	border: 0;
+	border-radius: 2.5em;
+	/* width: 2em; */
+	/* height: 2.5em; */
+	margin-left: 10em;
+	font-family: 'Roboto', sans-serif;
+	font-weight: bold;
+	transition: 0.8s;
+}
+
+.delete-btn:hover {
+	background-color: rgb(235, 225, 220);
+	border: 0;
+	border-radius: 0.2em;
+	height: 2.5em;
+	font-family: 'Roboto', sans-serif;
+	font-weight: bold;
+	transition: 0.8s;
+}
 </style>

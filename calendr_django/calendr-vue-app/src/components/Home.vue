@@ -14,12 +14,14 @@
 							v-on:input="handleChange"
 							class="signup-input-form"
 						/>
+						<br />
+
 						<button type="submit" class="signup-btn">Sign up!</button>
 					</div>
-
 				</form>
-						<form v-on:submit.prevent="handleLogin" class="signup-form-container">
-					<h2 class="calendr-h2-login">Please login</h2>
+
+				<h2 class="calendr-h2-login">Please login</h2>
+				<form v-on:submit.prevent="handleLogin" class="login-form-container">
 					<div class="input-container">
 						<input
 							type="text"
@@ -29,14 +31,12 @@
 							v-on:input="handleChange"
 							class="signup-input-form"
 						/>
-							<button type="submit" class="signup-btn">Log in</button>
-					</div>
 
+						<button type="submit" class="signup-btn">Log in</button>
+					</div>
 				</form>
 			</div>
 		</div>
-
-
 	</div>
 </template>
 
@@ -54,19 +54,19 @@ export default {
 	methods: {
 		handleChange(e) {
 			// this.$emit('fieldChange', e.target.name, e.target.value);
-			this[e.target.name] = e.target.value
+			this[e.target.name] = e.target.value;
 		},
 		async handleSignup() {
 			const user = await CreateUser(this.signin);
 			localStorage.setItem('user', JSON.stringify(user.id));
-			this.signin = ''
+			this.signin = '';
 		},
 		async handleLogin() {
 			const user = await FindUsername(this.login);
-			console.log(user)
+			console.log(user);
 			localStorage.setItem('user', JSON.stringify(user));
 			this.user = user;
-			this.$router.push(`/calendar`)
+			this.$router.push(`/calendar`);
 		},
 	},
 };
@@ -84,6 +84,9 @@ export default {
 	background-position: 25% 25%;
 }
 
+.signup-div-container {
+}
+
 .calendr-h1 {
 	background-color: rgb(235, 225, 220);
 	box-shadow: 0.2em 0.2em rgb(247, 235, 235);
@@ -94,17 +97,21 @@ export default {
 	z-index: 2;
 	position: relative;
 }
-
+/*
 .calendr-h2 {
 	font-family: Roboto;
 	font-size: 2em;
 	margin: -2.4em 0 1em 4em;
 	z-index: 2;
 	position: relative;
+} */
+
+.signup-form-container {
+	margin: 0 auto;
 }
 
 .signup-container {
-	width: 50vw;
+	/* width: 50vw; */
 	height: 350px;
 	margin: -4em 0 0 2em;
 	padding-top: 2em;
@@ -118,7 +125,7 @@ export default {
 	height: 2em;
 	width: 15em;
 	/* margin: 0 auto 0.5em; */
-	margin: 0 auto 0;
+	margin: 0 auto;
 	text-align: center;
 }
 
@@ -139,19 +146,20 @@ export default {
 	font-family: 'Lato', sans-serif;
 }
 
+/* 
 .input-container-btn {
 	background-color: white;
 	border-radius: 0.2em;
 	height: 2em;
 	width: 15em;
 	margin: 0 auto 0.5em;
-}
+} */
 
 .signup-btn {
 	background-color: rgb(235, 225, 220);
-	/* width: 18em; */
+	width: 12em;
 	border: 0;
-	margin:1em;
+	margin-top: 0.7em;
 	border-radius: 0.2em;
 	height: 2.5em;
 	font-family: 'Roboto', sans-serif;
@@ -190,6 +198,6 @@ export default {
 	font-family: Roboto;
 	/* font-size: 2em; */
 	text-align: center;
-	padding: 1em 0 0 0;
+	/* padding: 1em 0 0 0; */
 }
 </style>
