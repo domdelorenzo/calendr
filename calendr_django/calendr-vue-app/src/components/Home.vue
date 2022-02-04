@@ -1,6 +1,6 @@
 <template>
 	<div class="home-container">
-		<!-- <div class="signup-div-container">
+		<div class="signup-div-container">
 			<h1 class="calendr-h1">Calendr .</h1>
 			<div class="signup-container">
 				<h2 class="signup-h2">Create an account and start planning!</h2>
@@ -14,20 +14,12 @@
 							v-on:input="handleChange"
 							class="signup-input-form"
 						/>
-					</div>
-
-					<div class="input-container">
-						<input
-							type="text"
-							placeholder="Password"
-							class="signup-input-form"
-						/>
-						<br /><br />
 						<button type="submit" class="signup-btn">Sign up!</button>
 					</div>
+
 				</form>
 			</div>
-		</div> -->
+		</div>
 
 		<div class="login-div-container">
 			<h1 class="calendr-h1-login">Calendr .</h1>
@@ -43,16 +35,9 @@
 							v-on:input="handleChange"
 							class="signup-input-form"
 						/>
+							<button type="submit" class="signup-btn">Log in</button>
 					</div>
 
-					<div class="input-container">
-						<!-- <input
-							type="text"
-							placeholder="Password"
-							class="signup-input-form"
-						/><br /><br /> -->
-						<button type="submit" class="signup-btn">Log in</button>
-					</div>
 				</form>
 			</div>
 		</div>
