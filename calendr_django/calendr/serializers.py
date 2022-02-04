@@ -12,7 +12,10 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     event_url = serializers.ModelSerializer.serializer_url_field(
         view_name='user_detail'
     )
-
+    # event_url = serializers.HyperlinkedIdentityField(
+    #     view_name='user_detail',
+    #     lookup_field='username'
+    # )
     class Meta:
         model = User
         fields = ('id', 'events', 'event_url', 'username')
