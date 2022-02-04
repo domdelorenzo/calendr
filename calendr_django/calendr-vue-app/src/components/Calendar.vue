@@ -28,10 +28,10 @@
 </template>
 
 <script>
-import DatePicker from "v-calendar/lib/components/date-picker.umd";
-import VCalendar from "v-calendar/lib/components/calendar.umd";
-import { GetUser } from "../services/endpoints";
-import axios from "axios";
+import DatePicker from 'v-calendar/lib/components/date-picker.umd';
+import VCalendar from 'v-calendar/lib/components/calendar.umd';
+import { GetUser } from '../services/endpoints';
+import axios from 'axios';
 
 export default {
   name: "Calendar",
@@ -86,54 +86,54 @@ export default {
 
 <style scoped>
 ::-webkit-scrollbar {
-  width: 0px;
+	width: 0px;
 }
 ::-webkit-scrollbar-track {
-  display: none;
+	display: none;
 }
 .events-calendar {
-  max-width: 95%;
+	max-width: 95%;
 }
 .vc-day {
-  height: 100px;
-  /* max-width: 100px; */
-  overflow-y: auto;
-  overflow-x: auto;
-  border: 0.5px solid lightgray;
-  padding-top: 8px;
+	height: 100px;
+	/* max-width: 100px; */
+	overflow-y: auto;
+	overflow-x: auto;
+	border: 0.5px solid lightgray;
+	padding-top: 8px;
 }
 .event {
-  border: 0.2px solid lightgray;
-  background-color: rgb(199, 229, 247);
-  margin: 5px 5px;
-  padding: 5px;
+	border: 0.2px solid lightgray;
+	background-color: rgb(199, 229, 247);
+	margin: 5px 5px;
+	padding: 5px;
 }
 .vc-header {
-  background-color: rgb(199, 229, 247);
+	background-color: rgb(199, 229, 247);
 }
 
 a {
-  position: absolute;
-  top: 10%;
-  right: 10%;
+	position: absolute;
+	top: 10%;
+	right: 10%;
 }
 .form-container {
-  display: flex;
-  justify-content: space-around;
+	display: flex;
+	justify-content: space-around;
 }
 form,
 .calendar-div {
-  width: 40%;
+	/* width: 40%; */
 }
 form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2em;
-  padding: 2em;
+	/* display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2em;
+	padding: 2em; */
 }
 input,
 button {
-  width: 60%;
+	width: 60%;
 }
 </style>
