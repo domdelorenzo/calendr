@@ -1,7 +1,8 @@
 <template>
-  <div>
-    <h1>Calendr</h1>
-    <a href="">Logout</a>
+
+	<div>
+		<h1>Calendr</h1>
+		<a @click="logout" href="">Logout</a>
     <div>
       <VCalendar class="events-calendar" is-expanded :attributes="attributes">
         <template v-slot:day-content="{ day, attributes }">
@@ -25,6 +26,7 @@
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -34,45 +36,49 @@ import { GetUser } from '../services/endpoints';
 import axios from 'axios';
 
 export default {
-  name: "Calendar",
-  components: {
-    DatePicker,
-    VCalendar,
-  },
-  props: {
-    user: null,
-  },
-  data() {
-    return {
-      userdata: {},
-      date: "",
-      attributes: [],
+	name: 'Calendar',
+	components: {
+		DatePicker,
+		VCalendar,
+	},
+	data() {
+		return {
+			userData: {},
+			date: new Date(),
+			attributes: [],
+			user: JSON.parse(localStorage.getItem('user')) || null,
       newEvent: {
         user_id: this.user.id,
       },
-    };
-  },
-  mounted() {
-    this.getEvents();
-  },
-  methods: {
+		};
+	},
+	mounted() {
+		this.getEvents();
+		this.cosoleMyLog();
+	},
+	methods: {
     handleClick() {
       this.newEvent = { ...this.newEvent, date: this.date.toISOString().slice(0, 10) };
     },
-    async getEvents() {
-      let res = await GetUser(this.user.id);
-      this.userData = res;
-      for (let i = 0; i < this.user.events.length; i++) {
-        let res = await axios.get(this.user.events[i]);
-        let year = parseInt(res.data.date.slice(0, 4));
-        let month = parseInt(res.data.date.slice(5, 7));
-        let day = parseInt(res.data.date.slice(8, 10));
-        this.attributes.push({ key: [i] + 1, customData: { title: res.data.title }, dates: new Date(year, month - 1, day), userData: res });
-      }
-    },
-    testClick(e) {
-      console.log(e);
-    },
+		cosoleMyLog(){
+			console.log('hello world')
+			console.log(this.user)
+		},
+		async getEvents() {
+			// let res = await GetUser(this.user.id);
+			
+			// let res = await GetUser(1);
+			let res = await GetUser(parseInt(this.user.id));
+		
+			this.userData = res;
+			for (let i = 0; i < this.userData.events.length; i++) {
+				let res = await axios.get(this.userData.events[i]);
+				let year = parseInt(res.data.date.slice(0, 4));
+				let month = parseInt(res.data.date.slice(5, 7));
+				let day = parseInt(res.data.date.slice(8, 10));
+				this.attributes.push({ key: [i] + 1, customData: { title: res.data.title }, dates: new Date(year, month - 1, day), userData: res });
+   			}
+		},
     handleChange(e) {
       this.newEvent = { ...this.newEvent, [e.target.placeholder]: e.target.value, date: this.date };
     },
@@ -80,7 +86,14 @@ export default {
       e.preventDefault();
       console.log(this.newEvent);
     },
-  },
+		logout(){
+			localStorage.clear()
+      this.user = null
+      this.username = ''
+			this.$router.push(`/home`)
+		}
+	},
+
 };
 </script>
 
@@ -112,11 +125,11 @@ export default {
 	background-color: rgb(199, 229, 247);
 }
 
-a {
+/* a {
 	position: absolute;
 	top: 10%;
 	right: 10%;
-}
+} */
 .form-container {
 	display: flex;
 	justify-content: space-around;
@@ -137,3 +150,5 @@ button {
 	width: 60%;
 }
 </style>
+
+
