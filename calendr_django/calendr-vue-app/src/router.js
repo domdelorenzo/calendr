@@ -6,8 +6,7 @@ import Calendar from './components/Calendar.vue'
 
 const routes = [
   { path: '/home', component: Home, name: 'Home' },
-  { path: '/calendar', component: Calendar, name: 'Calendar' }
-
+  { path: '/calendar/:id', component: Calendar, name: 'Calendar' }
 ]
 
 export default new VueRouter({
